@@ -11,7 +11,18 @@ spec:
       labels:
         app: testmain
     spec:
-      containers:
+      initContainers:  # <-- Aquí va el initContainer
+      - name: wait-for-mysql
+        image: busybox:1.35
+        command: ['sh', '-c']
+        args:
+        - |
+          until nc -zv mysql-service 3306; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+          echo "MySQL is ready!"
+      containers:  # <-- Solo el container principal
       - name: testmain
         image: ghcr.io/brunoredolfi/testmain:latest
         ports:
@@ -36,7 +47,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: db-secret
-              key: MYSQL_PASSWORD  # Asegúrate que coincide con el secret
+              key: MYSQL_PASSWORD
         - name: SPRING_JPA_HIBERNATE_DDL_AUTO
           valueFrom:
             configMapKeyRef:
@@ -53,11 +64,15 @@ spec:
           httpGet:
             path: /actuator/health
             port: 9000
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60  # Aumenté el tiempo
           periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /actuator/health
             port: 9000
-          initialDelaySeconds: 30
+          initialDelaySeconds: 45  # Aumenté el tiempo
           periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
