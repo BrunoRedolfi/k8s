@@ -9,5 +9,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 9000
-      nodePort: 30080  # Puerto entre 30000-32767
+      # Sin nodePort - Kubernetes asigna uno automáticamente
   type: NodePort
