@@ -9,11 +9,11 @@ resources:
 - mysql-deployment.yaml
 - mysql-service.yaml
 - mysql-pvc.yaml
-- mysql-pv.yaml  # Solo para Minikube
+- mysql-pv.yaml
 
-# Namespace común (será sobrescrito por overlays)
-namespace: testmain-dev  # Valor por defecto, pero los overlays lo cambiarán
 
-commonLabels:
-  app: testmain
-  tier: backend
+labels:
+- includeSelectors: true
+  pairs:
+    app: testmain
+    tier: backend

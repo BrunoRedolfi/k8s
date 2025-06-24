@@ -4,4 +4,3 @@ metadata:
   name: testmain-test
   labels:
     env: test
-    team: backend

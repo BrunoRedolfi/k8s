@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testmain-dev
+  labels:
+    app: testmain
+    tier: backend

@@ -9,7 +9,7 @@ namespace: testmain-prod
 patchesStrategicMerge:
 - app-patch.yaml
 - service-patch.yaml
-- namespace-patch.yaml
+- namespace.yaml
 - mysql-patch.yaml  # Config especial para GKE
 
 images:

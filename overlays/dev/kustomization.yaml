@@ -4,17 +4,17 @@ kind: Kustomization
 # Referencia al directorio base
 resources:
 - ../../base
-
+- namespace.yaml
 namespace: testmain-dev
 
 # Parches para modificar recursos del base
-patchesStrategicMerge:
-- app-patch.yaml
-- service-patch.yaml
-- namespace-patch.yaml
-- mysql-patch.yaml
 
 # Sobrescribe el tag de la imagen (usará el tag "dev" que pushea tu CI)
 images:
 - name: ghcr.io/brunoredolfi/testmain
-  newTag: dev  # Coincide con el tag que defines en tu CI/CD
+  newTag: dev
+patches:
+- path: app-patch.yaml
+- path: service-patch.yaml
+- path: namespace.yaml
+- path: mysql-patch.yaml
