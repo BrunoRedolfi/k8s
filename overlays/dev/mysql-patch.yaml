@@ -7,39 +7,26 @@ spec:
     spec:
       containers:
       - name: mysql
-        # Configuraciones específicas para dev (ej: variables de entorno)
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: db-secret
               key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          value: "dev_database"  # Dev-specific DB name
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
-          claimName: mysql-pvc
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysql-pv
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data/dev-mysql"  # Ruta única para dev
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: manual
-  volumeName: mysql-pv
+          claimName: mysql-pvc  # References the base PVC
+      # Optional: Init container to ensure directory exists
+      initContainers:
+      - name: ensure-mysql-dir
+        image: busybox
+        command: ["mkdir", "-p", "/var/lib/mysql"]
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql

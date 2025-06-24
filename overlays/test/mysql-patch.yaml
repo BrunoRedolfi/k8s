@@ -1,5 +1,3 @@
----
-# MySQL Deployment para test
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,32 +9,24 @@ spec:
       - name: mysql
         env:
         - name: MYSQL_DATABASE
-          value: "testdb_test"  # DB específica para testing
----
-# PV para Minikube (test)
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysql-pv  # ✅ Matches base name
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 2Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data/test-mysql"
----
-# PVC para test
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc  # ✅ Matches base name
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: manual
-  volumeName: mysql-pv  # ✅ Matches PV name
+          value: "testdb_test"  # Test-specific DB name
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: MYSQL_ROOT_PASSWORD
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc  # Uses the same base PVC
+      # Optional test-specific init container
+      initContainers:
+      - name: test-data-loader
+        image: busybox
+        command: ["sh", "-c", "echo 'Loading test data...' && sleep 5"]
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
