@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: testmain-service
+spec:
+  type: ClusterIP  # Acceso interno (para integrar con Ingress si es necesario)
+  ports:
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000

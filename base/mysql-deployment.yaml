@@ -11,31 +11,34 @@ spec:
       labels:
         app: mysql
     spec:
+      securityContext:
+        runAsUser: 999  # Usuario mysql
+        fsGroup: 999
       containers:
       - name: mysql
         image: mysql:8.0
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_DATABASE
-          value: "testdb"
-        - name: MYSQL_USER
-          value: "testuser"
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: MYSQL_PASSWORD
+        securityContext:
+          readOnlyRootFilesystem: false  # MySQL necesita escribir
+          allowPrivilegeEscalation: false
+        envFrom:
+        - secretRef:
+            name: db-secret
+        - configMapRef:
+            name: mysql-config
         ports:
         - containerPort: 3306
         volumeMounts:
-        - name: mysql-initdb
-          mountPath: /docker-entrypoint-initdb.d
         - name: mysql-storage
           mountPath: /var/lib/mysql
+        - name: mysql-initdb
+          mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
@@ -43,6 +46,14 @@ spec:
       - name: mysql-initdb
         configMap:
           name: mysql-init-script
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_DATABASE: "testdb"
+  MYSQL_USER: "testuser"
 ---
 apiVersion: v1
 kind: ConfigMap

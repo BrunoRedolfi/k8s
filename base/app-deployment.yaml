@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testmain-app
+spec:
+  selector:
+    matchLabels:
+      app: testmain
+  template:
+    metadata:
+      labels:
+        app: testmain
+    spec:
+      securityContext:  # Añadir seguridad
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      initContainers:
+      - name: wait-for-mysql
+        image: busybox:1.35
+        securityContext:  # Seguridad para initContainer
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        command: ['sh', '-c']
+        args:
+        - |
+          until nc -zv mysql-service 3306; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+      containers:
+      - name: testmain
+        image: ghcr.io/brunoredolfi/testmain:IMAGE_TAG
+        securityContext:
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+        ports:
+        - containerPort: 9000
+        envFrom:  # Simplificar variables
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: db-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9000
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9000
+          initialDelaySeconds: 45

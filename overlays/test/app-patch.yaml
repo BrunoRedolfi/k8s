@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testmain-app
+spec:
+  replicas: 2  # 2 réplicas para testing
+  template:
+    spec:
+      containers:
+      - name: testmain
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: test  # Perfil específico
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"

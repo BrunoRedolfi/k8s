@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testmain-app
+spec:
+  replicas: 1 # Solo una réplica en dev
+  template:
+    spec:
+      containers:
+      - name: testmain
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
