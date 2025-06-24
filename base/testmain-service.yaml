@@ -2,12 +2,20 @@ apiVersion: v1
 kind: Service
 metadata:
   name: testmain-service
+  labels:
+    app: testmain
+    tier: backend
 spec:
+  ports:
+  - name: http  # Required for Services
+    port: 80
+    protocol: TCP
+    targetPort: 9000
+  - name: mysql  # Required if you have multiple ports
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
   selector:
     app: testmain
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 9000
-      # Sin nodePort - Kubernetes asigna uno automáticamente
+    tier: backend
   type: NodePort
