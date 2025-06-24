@@ -7,14 +7,14 @@ metadata:
     tier: backend
 spec:
   ports:
-  - name: http  # Required for Services
+  - name: http  # ← Required field
     port: 80
-    protocol: TCP
     targetPort: 9000
-  - name: mysql  # Required if you have multiple ports
-    port: 3306
     protocol: TCP
+  - name: mysql  # ← Required if you have multiple ports
+    port: 3306
     targetPort: 3306
+    protocol: TCP
   selector:
     app: testmain
     tier: backend
