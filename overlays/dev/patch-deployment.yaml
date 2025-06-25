@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testmain
+spec:
+  template:
+    spec:
+      containers:
+        - name: testmain
+          image: ghcr.io/brunoredolfi/testmain:dev
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev

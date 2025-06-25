@@ -1,20 +1,7 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+namespace: dev
 
-# Referencia al directorio base
 resources:
-- ../../base
-- namespace.yaml
-namespace: testmain-dev
+  - ../base
 
-# Parches para modificar recursos del base
-
-# Sobrescribe el tag de la imagen (usará el tag "dev" que pushea tu CI)
-images:
-- name: ghcr.io/brunoredolfi/testmain
-  newTag: dev
-patches:
-- path: app-patch.yaml
-- path: service-patch.yaml
-- path: namespace.yaml
-- path: mysql-patch.yaml
+patchesStrategicMerge:
+  - patch-deployment.yaml

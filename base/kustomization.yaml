@@ -1,18 +1,6 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
 resources:
-- mysql-config.yaml        # 2. Configs before deployments that use them
-- mysql-init-script.yaml   # 3. DB init before DB deployment
-- mysql-pvc.yaml           # 4. Storage before DB
-- mysql-deployment.yaml    # 5. DB before app
-- mysql-service.yaml       # 6. DB service
-- app-configmap.yaml       # 7. App config
-- db-secret.yaml           # 8. Secrets (could also go with configs)
-- app-deployment.yaml      # 9. App deployment
-- testmain-service.yaml    # 10. App service (last)
-labels:
-- includeSelectors: true
-  pairs:
-    app: testmain
-    tier: backend
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - mysql-deployment.yaml
+  - mysql-service.yaml

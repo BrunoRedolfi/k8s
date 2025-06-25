@@ -2,48 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: PLACEHOLDER_NAMESPACE
 spec:
   selector:
     matchLabels:
       app: mysql
+  replicas: 1
   template:
     metadata:
       labels:
         app: mysql
     spec:
-      securityContext:
-        runAsUser: 999  # Usuario mysql
-        fsGroup: 999
       containers:
-      - name: mysql
-        image: mysql:8.0
-        securityContext:
-          readOnlyRootFilesystem: false  # MySQL necesita escribir
-          allowPrivilegeEscalation: false
-        envFrom:
-        - secretRef:
-            name: db-secret
-        - configMapRef:
-            name: mysql-config
-        ports:
-        - containerPort: 3306
-        volumeMounts:
-        - name: mysql-storage
-          mountPath: /var/lib/mysql
-        - name: mysql-initdb
-          mountPath: /docker-entrypoint-initdb.d
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "500m"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-      volumes:
-      - name: mysql-storage
-        persistentVolumeClaim:
-          claimName: mysql-pvc
-      - name: mysql-initdb
-        configMap:
-          name: mysql-init-script
-
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: testdb
+            - name: MYSQL_USER
+              value: testuser
+            - name: MYSQL_PASSWORD
+              value: testpass
+          ports:
+            - containerPort: 3306

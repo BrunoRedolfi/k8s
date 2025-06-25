@@ -1,27 +1,7 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+namespace: test
 
 resources:
-- ../../base
-- namespace.yaml
-- pvc-patch.yaml  # Must come BEFORE mysql-patch.yaml
-- mysql-init-script-test.yaml
-- mysql-patch.yaml
-- volumes-patch.yaml
-- app-patch.yaml
-- service-patch.yaml
+  - ../base
 
-namespace: testmain-test
-
-
-images:
-- name: ghcr.io/brunoredolfi/testmain
-  newTag: test
-patches:
-- path: namespace.yaml          # 1. Set namespace first (foundational)
-- path: pvc-patch.yaml         # 2. Storage before deployments that need it
-- path: mysql-init-script-test.yaml  # Add this
-- path: mysql-patch.yaml       # 3. DB before app that depends on it
-- path: volumes-patch.yaml     # 4. App volumes before app config
-- path: app-patch.yaml         # 5. App configuration last
-- path: service-patch.yaml     # 6. Services typically last
+patchesStrategicMerge:
+  - patch-deployment.yaml

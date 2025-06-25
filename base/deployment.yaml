@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testmain
+  namespace: PLACEHOLDER_NAMESPACE  # Will be overridden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testmain
+  template:
+    metadata:
+      labels:
+        app: testmain
+    spec:
+      containers:
+        - name: testmain
+          image: ghcr.io/brunoredolfi/testmain:latest  # will be overridden
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+                value: default
+            - name: SPRING_DATASOURCE_URL
+                value: jdbc:mysql://mysql:3306/testdb
+            - name: SPRING_DATASOURCE_USERNAME
+                value: testuser
+            - name: SPRING_DATASOURCE_PASSWORD
+                value: testpass
+
