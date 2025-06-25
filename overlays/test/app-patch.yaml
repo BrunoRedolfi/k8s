@@ -9,8 +9,26 @@ spec:
       containers:
       - name: testmain
         env:
+        # Override SPRING_DATASOURCE_URL to point to testdb_test
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql-service:3306/testdb_test?useSSL=false"
+        # Force test profile
         - name: SPRING_PROFILES_ACTIVE
-          value: test  # Perfil específico
+          value: "test"
+        # Debug logs
+        - name: LOGGING_LEVEL_ROOT
+          value: "DEBUG"
+        # Explicit DB credentials (from secret)
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: MYSQL_ROOT_PASSWORD
         resources:
           requests:
             memory: "512Mi"
