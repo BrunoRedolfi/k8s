@@ -2,28 +2,40 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: PLACEHOLDER_NAMESPACE
 spec:
   selector:
     matchLabels:
       app: mysql
-  replicas: 1
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: mysql
     spec:
       containers:
-        - name: mysql
-          image: mysql:8.0
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: root
-            - name: MYSQL_DATABASE
-              value: testdb
-            - name: MYSQL_USER
-              value: testuser
-            - name: MYSQL_PASSWORD
-              value: testpass
-          ports:
-            - containerPort: 3306
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "3141"
+        - name: MYSQL_DATABASE
+          value: "db_persona"
+        - name: MYSQL_USER
+          value: "root"
+        - name: MYSQL_ROOT_HOST
+          value: '%'
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+        - name: mysql-init
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc-placeholder  # This will be patched by kustomize for each environment
+      - name: mysql-init
+        configMap:
+          name: mysql-init-script

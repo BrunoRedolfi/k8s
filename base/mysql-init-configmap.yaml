@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-script
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS db_persona;
+    CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '3141';
+    GRANT ALL PRIVILEGES ON db_persona.* TO 'root'@'%';
+    FLUSH PRIVILEGES;

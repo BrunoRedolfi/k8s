@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-test
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi  # Test-specific size
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mysql-test  # Test-specific path
+    type: DirectoryOrCreate
