@@ -4,7 +4,13 @@ kind: Kustomization
 resources:
 - ../../base
 - namespace.yaml
-- mysql-init-script-test.yaml  # ← Add this
+- pvc-patch.yaml  # Must come BEFORE mysql-patch.yaml
+- mysql-init-script-test.yaml
+- mysql-patch.yaml
+- volumes-patch.yaml
+- app-patch.yaml
+- service-patch.yaml
+
 namespace: testmain-test
 
 

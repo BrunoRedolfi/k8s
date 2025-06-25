@@ -25,7 +25,7 @@ spec:
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
-          claimName: mysql-pvc  # Uses the same base PVC
+          claimName: mysql-pvc-test  # Uses the same base PVC
       # Optional test-specific init container
       initContainers:
       - name: test-data-loader

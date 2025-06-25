@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pvc-test
+  name: mysql-pvc-test  # New unique name
 spec:
   storageClassName: standard
   accessModes:
