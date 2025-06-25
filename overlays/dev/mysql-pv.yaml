@@ -9,5 +9,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/mysql-dev
+    path: /tmp/mysql-dev
     type: DirectoryOrCreate
