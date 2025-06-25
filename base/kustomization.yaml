@@ -9,7 +9,8 @@ resources:
 - mysql-deployment.yaml
 - mysql-service.yaml
 - mysql-pvc.yaml
-
+- mysql-config.yaml         # Added
+- mysql-init-script.yaml    # Added
 
 labels:
 - includeSelectors: true

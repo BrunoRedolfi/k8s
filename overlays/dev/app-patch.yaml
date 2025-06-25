@@ -9,12 +9,6 @@ spec:
       containers:
       - name: testmain
         env:
-        - name: JAVA_OPTS
-          value: "-Djava.io.tmpdir=/app/tmp"
-        - name: SERVER_TOMCAT_BASEDIR
-          value: "/app/tmp"
-        - name: SERVER_TOMCAT_ACCESSLOG_DIRECTORY
-          value: "/app/tmp"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:mysql://mysql-service:3306/dev_database?useSSL=false"
         - name: SPRING_PROFILES_ACTIVE
