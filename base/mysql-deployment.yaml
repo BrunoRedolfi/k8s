@@ -3,11 +3,11 @@ kind: Deployment
 metadata:
   name: mysql
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: mysql
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -16,17 +16,16 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
-        ports:
-        - containerPort: 3306
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "3141"
         - name: MYSQL_DATABASE
           value: "db_persona"
-        - name: MYSQL_USER
-          value: "root"
         - name: MYSQL_ROOT_HOST
-          value: '%'
+          value: "%"
+        # Removed MYSQL_USER=root as it's not allowed
+        ports:
+        - containerPort: 3306
         volumeMounts:
         - name: mysql-storage
           mountPath: /var/lib/mysql
@@ -35,7 +34,7 @@ spec:
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
-          claimName: mysql-pvc-placeholder  # This will be patched by kustomize for each environment
+          claimName: mysql-pvc-placeholder
       - name: mysql-init
         configMap:
           name: mysql-init-script

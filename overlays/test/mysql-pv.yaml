@@ -3,11 +3,12 @@ kind: PersistentVolume
 metadata:
   name: mysql-pv-test
 spec:
-  storageClassName: manual
   capacity:
-    storage: 5Gi  # Test-specific size
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
   hostPath:
-    path: /data/mysql-test  # Test-specific path
+    path: /data/mysql-test
     type: DirectoryOrCreate
