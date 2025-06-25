@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-script-test
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS testdb_test;
+    CREATE USER IF NOT EXISTS 'testuser'@'%' IDENTIFIED BY 'testpass';
+    GRANT ALL PRIVILEGES ON testdb_test.* TO 'testuser'@'%';
+    FLUSH PRIVILEGES;

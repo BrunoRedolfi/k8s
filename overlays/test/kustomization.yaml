@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - ../../base
 - namespace.yaml
+- mysql-init-script-test.yaml  # ← Add this
 namespace: testmain-test
 
 
@@ -13,6 +14,7 @@ images:
 patches:
 - path: namespace.yaml          # 1. Set namespace first (foundational)
 - path: pvc-patch.yaml         # 2. Storage before deployments that need it
+- path: mysql-init-script-test.yaml  # Add this
 - path: mysql-patch.yaml       # 3. DB before app that depends on it
 - path: volumes-patch.yaml     # 4. App volumes before app config
 - path: app-patch.yaml         # 5. App configuration last

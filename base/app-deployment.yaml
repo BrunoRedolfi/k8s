@@ -16,6 +16,14 @@ spec:
         app: testmain
         tier: backend  # ← Agregado para coincidir con el service
     spec:
+      volumes:
+      - name: temp
+        emptyDir: {}
+      containers:
+      - name: testmain
+        volumeMounts:
+        - name: temp
+          mountPath: /tmp
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
