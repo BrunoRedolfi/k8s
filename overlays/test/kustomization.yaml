@@ -11,9 +11,9 @@ images:
 - name: ghcr.io/brunoredolfi/testmain
   newTag: test
 patches:
-- path: namespace.yaml
-- path: app-patch.yaml
-- path: service-patch.yaml
-- path: mysql-patch.yaml
-- path: pvc-patch.yaml
-- path: volumes-patch.yaml
+- path: namespace.yaml          # 1. Set namespace first (foundational)
+- path: pvc-patch.yaml         # 2. Storage before deployments that need it
+- path: mysql-patch.yaml       # 3. DB before app that depends on it
+- path: volumes-patch.yaml     # 4. App volumes before app config
+- path: app-patch.yaml         # 5. App configuration last
+- path: service-patch.yaml     # 6. Services typically last
