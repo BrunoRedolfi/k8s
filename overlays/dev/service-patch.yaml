@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: testmain-service
 spec:
-  type: ClusterIP  # Acceso interno (para integrar con Ingress si es necesario)
+  type: ClusterIP
   ports:
-  - name: http      # ← CAMPO REQUERIDO que faltaba
-    port: 80        # Puerto del service
-    targetPort: 8080 # Puerto de tu app Spring Boot
+  - name: http
+    port: 80         # Puerto estándar del service
+    targetPort: 9000 # Puerto de tu app (confirmado en application.properties)
     protocol: TCP

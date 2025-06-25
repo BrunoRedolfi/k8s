@@ -2,23 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: testmain-app
+  labels:
+    app: testmain
+    tier: backend
 spec:
   selector:
     matchLabels:
       app: testmain
+      tier: backend  # ← Agregado para coincidir con el service
   template:
     metadata:
       labels:
         app: testmain
+        tier: backend  # ← Agregado para coincidir con el service
     spec:
-      securityContext:  # Añadir seguridad
+      securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 2000
       initContainers:
       - name: wait-for-mysql
         image: busybox:1.35
-        securityContext:  # Seguridad para initContainer
+        securityContext:
           allowPrivilegeEscalation: false
           capabilities:
             drop: ["ALL"]
@@ -38,7 +43,7 @@ spec:
             drop: ["ALL"]
         ports:
         - containerPort: 9000
-        envFrom:  # Simplificar variables
+        envFrom:
         - configMapRef:
             name: app-config
         - secretRef:
