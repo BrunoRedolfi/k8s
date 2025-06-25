@@ -6,16 +6,16 @@ metadata:
     app: testmain
     tier: backend
 spec:
-  ports:
-  - name: http  # ← Required field
-    port: 80
-    targetPort: 9000
-    protocol: TCP
-  - name: mysql  # ← Required if you have multiple ports
-    port: 3306
-    targetPort: 3306
-    protocol: TCP
+  type: NodePort
   selector:
     app: testmain
     tier: backend
-  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: mysql
+    port: 3306
+    targetPort: 3306
+    protocol: TCP
