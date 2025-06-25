@@ -3,7 +3,9 @@ kind: Service
 metadata:
   name: testmain-service
 spec:
-  type: NodePort  # Para acceder fácilmente en Minikube
+  type: ClusterIP  # Acceso interno (para integrar con Ingress si es necesario)
   ports:
-  - port: 9000
-    nodePort: 30080  # Opcional: Fija un puerto para Minikube
+  - name: http      # ← CAMPO REQUERIDO que faltaba
+    port: 80        # Puerto del service
+    targetPort: 8080 # Puerto de tu app Spring Boot
+    protocol: TCP

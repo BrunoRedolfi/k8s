@@ -5,6 +5,7 @@ metadata:
 spec:
   type: ClusterIP  # Acceso interno (para integrar con Ingress si es necesario)
   ports:
-  - port: 9000
+  - name: http      # ← CAMPO REQUERIDO que faltaba
+    port: 80        # Puerto del service
+    targetPort: 8080 # Puerto de tu app Spring Boot
     protocol: TCP
-    targetPort: 9000
