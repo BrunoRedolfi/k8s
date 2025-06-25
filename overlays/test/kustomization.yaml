@@ -15,4 +15,5 @@ patches:
 - path: app-patch.yaml
 - path: service-patch.yaml
 - path: mysql-patch.yaml
-- path: pvc-patch.yaml  # Add this
+- path: pvc-patch.yaml
+- path: volumes-patch.yaml
