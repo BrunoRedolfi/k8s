@@ -8,6 +8,10 @@ resources:
   - mysql-pv.yaml
   - mysql-pvc.yaml
 
+images:
+  - name: ghcr.io/brunoredolfi/testmain
+    newTag: test
+
 patches:
   - target:
       kind: Deployment
