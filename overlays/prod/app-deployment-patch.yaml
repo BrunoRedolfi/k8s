@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: testmain-app
+  name: testmain
 spec:
   replicas: 3  # Múltiples replicas para HA
   template:
