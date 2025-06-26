@@ -4,6 +4,9 @@ metadata:
   name: testmain-app
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: testmain
   template:
     spec:
       containers:
@@ -15,7 +18,3 @@ spec:
           limits:
             memory: "1Gi"
             cpu: "1"
-        # Configuraciones adicionales para producción
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "prod"
