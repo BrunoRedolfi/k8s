@@ -9,11 +9,11 @@ spec:
       - name: mysql
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "256Mi"
+            cpu: "100m"
           limits:
-            memory: "2Gi"
-            cpu: "1"
+            memory: "512Mi"
+            cpu: "500m"
         # Configuraciones adicionales para producción
         args:
           - --innodb-buffer-pool-size=1G

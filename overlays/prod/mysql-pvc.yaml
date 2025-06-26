@@ -7,5 +7,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
-  storageClassName: standard-rwo  # Clase de storage de GKE
+      storage: 10Gi
+  storageClassName: standard
