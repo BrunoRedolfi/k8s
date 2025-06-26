@@ -1,9 +1,6 @@
-# Crea un nuevo archivo service-patch.yaml
-cat > overlays/prod/service-patch.yaml <<EOF
 apiVersion: v1
 kind: Service
 metadata:
   name: testmain-service
 spec:
-  type: LoadBalancer  # Cambia a LoadBalancer para IP externa
-EOF
+  type: LoadBalancer
