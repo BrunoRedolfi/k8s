@@ -11,7 +11,7 @@ resources:
 
 images:
   - name: ghcr.io/brunoredolfi/testmain
-    newTag: dev-698ab382c79ebeb3602e6a8926d057f8acfe05be
+    newTag: dev-2259b81d1bc55a2fe54a743dbb72c4fc07f3ad3a
 # Patches for dev environment
 patches:
   # Update PVC reference in MySQL deployment
