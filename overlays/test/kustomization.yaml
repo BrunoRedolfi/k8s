@@ -10,7 +10,7 @@ resources:
 
 images:
   - name: ghcr.io/brunoredolfi/testmain
-    newTag: test-7209601b045c15137c7c3c6d82614fe695bb377d
+    newTag: test-3f5b273af356b3b1faf1c13eb914e80af0f44b08
 
 patches:
   - target:
