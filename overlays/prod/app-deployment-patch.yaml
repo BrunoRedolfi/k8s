@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testmain-app
+spec:
+  replicas: 3  # Múltiples replicas para HA
+  template:
+    spec:
+      containers:
+      - name: testmain
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
+        # Configuraciones adicionales para producción
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
