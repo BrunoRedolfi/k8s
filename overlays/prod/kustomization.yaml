@@ -11,6 +11,7 @@ resources:
 patchesStrategicMerge:
   - mysql-deployment-patch.yaml
   - app-deployment-patch.yaml
+  - service-patch.yaml
 
 configMapGenerator:
   - name: app-config
