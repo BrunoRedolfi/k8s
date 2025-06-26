@@ -20,4 +20,4 @@ configMapGenerator:
 
 images:
   - name: ghcr.io/brunoredolfi/testmain
-    newTag: prod
+    newTag: prod-b93cb2727f2be673097c8e46f55efdadb7f72b52
