@@ -10,10 +10,10 @@ spec:
       - name: testmain
         resources:
           requests:
-            memory: "1Gi"
+            memory: "512Mi"
             cpu: "500m"
           limits:
-            memory: "2Gi"
+            memory: "1Gi"
             cpu: "1"
         # Configuraciones adicionales para producción
         env:
